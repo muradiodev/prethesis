@@ -70,10 +70,10 @@
             <!-- Logo -->
             <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
                 <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-                    <a class="navbar-brand brand-logo" href="index.html">
-                        <img src="admin/assets/images/logo.svg" alt="logo" /> </a>
-                    <a class="navbar-brand brand-logo-mini" href="index.html">
-                        <img src="admin/assets/images/logo-mini.svg" alt="logo" /> </a>
+                    <a class="navbar-brand brand-logo" href="/">
+                        <img src="http://localhost:8084/main/file/csm_rostock_logo_0afd2db082.png" alt="logo" /> </a>
+                    <a class="navbar-brand brand-logo-mini" href="/">
+                        <img src="http://localhost:8084/main/file/csm_rostock_logo_0afd2db082.png" alt="logo" /> </a>
                 </div>
                 <%@ include file="header.jsp" %>
 
@@ -95,23 +95,23 @@
                                             <div class="card-body pb-0">
                                                 <div class="d-flex justify-content-between">
                                                     <h4 class="card-title mb-0">Total tickets</h4>
-                                                    <p class="font-weight-semibold mb-0">2</p>
+                                                    <p class="font-weight-semibold mb-0">8</p>
                                                 </div>
                                             </div>
                                             <canvas class="mt-n4" height="90" id="total-revenue"></canva>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 grid-margin stretch-card">
-                                        <div class="card">
-                                            <div class="card-body pb-0">
-                                                <div class="d-flex justify-content-between">
-                                                    <h4 class="card-title mb-0">Total alternative selections</h4>
-                                                    <p class="font-weight-semibold mb-0">14</p>
-                                                </div>
-                                            </div>
-                                            <canvas class="mt-n3" height="90" id="total-transaction"></canva>
-                                        </div>
-                                    </div>
+<%--                                    <div class="col-md-6 grid-margin stretch-card">--%>
+<%--                                        <div class="card">--%>
+<%--                                            <div class="card-body pb-0">--%>
+<%--                                                <div class="d-flex justify-content-between">--%>
+<%--                                                    <h4 class="card-title mb-0">Total alternative selections</h4>--%>
+<%--                                                    <p class="font-weight-semibold mb-0">14</p>--%>
+<%--                                                </div>--%>
+<%--                                            </div>--%>
+<%--                                            <canvas class="mt-n3" height="90" id="total-transaction"></canva>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
                                 </div>
                             </div>
                         </div>

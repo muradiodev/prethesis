@@ -58,7 +58,7 @@
                                     <p class="mb-1 mt-3 font-weight-semibold">Admin</p>
                                 </div>
                                 <a class="dropdown-item">My Profile <span class="badge badge-pill badge-danger">1</span><i class="dropdown-item-icon ti-dashboard"></i></a>
-                                <a class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
+                                <a href="/logout" class="dropdown-item">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
                             </div>
                         </li>
                     </ul>

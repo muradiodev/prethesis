@@ -95,12 +95,16 @@
 
             var annotations = [];
 
-            $( ".boxmain" ).each(function( index ) {
+            $(".boxmain").each(function (index) {
                 var currentElement = $(this);
 
                 console.log(currentElement.find('.tarea').val());
                 // var value = currentElement.position().top();
-                annotations.push({'top': currentElement.position().top,'left': currentElement.position().left, 'comment':currentElement.find('.tarea').val()});
+                annotations.push({
+                    'top': currentElement.position().top,
+                    'left': currentElement.position().left,
+                    'comment': currentElement.find('.tarea').val()
+                });
 
             });
             var name = $('#ann_name').val();
@@ -115,27 +119,19 @@
             xhr.send(JSON.stringify(annotations));
 
 
-            // $( this ).position().top() + " : "+ $( this ).position().left()
-
-            // console.log(this.count);
-
-            // for (i = 0; i < count; i++) {
-            //     var data = $(".box" + i).position();
-            //     console.log(".box" + i);
-            //
-            //     console.log(data.top, data.left);
-            // }
-
-            // sendAjax();
+            $('#exampleModal').modal('show');
         }
+
         function deleteBoxSelected(button) {
             // console.log("gelen value    "+button)
-            var s =  $(button).attr("id");
-            console.log("success   "+s);
-            $('.'+s).remove();
+            var s = $(button).attr("id");
+            console.log("success   " + s);
+            $('.' + s).remove();
 
         }
-
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
         var count = 0;
 
 
@@ -167,8 +163,6 @@
             $(".draggable").draggable();
             count++;
         }
-
-
 
 
         function sendAjax() {
@@ -326,6 +320,28 @@
 </head>
 <body>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+<%--                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>--%>
+<%--                <button type="button" class="close" data-dismiss="modal" onClick="window.location.reload();" aria-label="Close">--%>
+                    <button type="button" class="close" data-dismiss="modal" onClick="window.location.reload();" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Successfully saved!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onClick="window.location.reload();" data-dismiss="modal">Close</button>
+<%--                <button type="button" class="btn btn-primary">Save changes</button>--%>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div style="position: absolute; z-index:1001;width:100%;" id="mainAppend">
     <div id="fixed-social">
         <div>
@@ -359,16 +375,16 @@
                 </li>
             </div>
 
-            <div>
-                <div></div>
-                <br>
-                <div>Alternatives detected!</div>
-                <br>
-                <li>
-                    <button id="3" onclick="participate()" class="btn btn-primary btn-rounded btn-fw">participate
-                    </button>
-                </li>
-            </div>
+            <%--            <div>--%>
+            <%--                <div></div>--%>
+            <%--                <br>--%>
+            <%--                <div>Alternatives detected!</div>--%>
+            <%--                <br>--%>
+            <%--                <li>--%>
+            <%--                    <button id="3" onclick="participate()" class="btn btn-primary btn-rounded btn-fw">participate--%>
+            <%--                    </button>--%>
+            <%--                </li>--%>
+            <%--            </div>--%>
 
         </div>
         <%--main box end--%>
@@ -413,8 +429,9 @@
                     <div><br></div>
                     <div>
 
-                        <button  onclick="submitCoordinates()" class="btn btn-primary btn-rounded btn-fw"
-                                style="width: 80%;">Send</button>
+                        <button onclick="submitCoordinates()" class="btn btn-primary btn-rounded btn-fw"
+                                style="width: 80%;">Send
+                        </button>
                     </div>
 
                 </div>
@@ -434,8 +451,13 @@
                         submitted feedback
                     </div>
                     <div>
-                        <input type="text" style="width: 80%;margin:auto;" class="form-control"
-                               placeholder="Enter ticket-ID">
+                        <form action="http://localhost:8084/indexOpen" method="get">
+                            <input type="text" name="id" style="width: 80%;margin:auto;" class="form-control"
+                                   placeholder="Enter ticket-ID"/>
+                            <li>
+                                <input type="submit" class="btn btn-primary btn-rounded btn-fw" value="SHOW"/>
+                            </li>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -679,7 +701,7 @@
 
         <!-- theme_hsmv: Partials/Content/Header.html [begin] -->
         <div class="header__top-wrapper">
-            <div class="logo"><a href="https://www.uni-rostock.de/en/" title="Universität Rostock"
+            <div class="logo"><a href="http://localhost:8084/" title="Universität Rostock"
                                  class="logo-main"><img src="main/file/csm_rostock_logo_0afd2db082.png" width="800"
                                                         height="174" alt="Universität Rostock"
                                                         title="Universität Rostock"></a></div>
@@ -1211,7 +1233,7 @@
             <div class="grid__column grid__column--md-8">
                 <div id="c1085819" class="csc-frame csc-frame-default frame-type-textpic frame-layout-0">
                     <div class="csc-header"><h2 class="">
-                        Welcome to the Computer Science Division
+                        Welcome Salih Bushra and Aysel :)
                     </h2></div>
                     <div class="csc-textpic csc-textpic-responsive csc-textpic-intext-right">
                         <div class="csc-textpic-text"><p>Computer Science is the sciene of machine processing of

@@ -22,7 +22,7 @@
             crossorigin="anonymous"></script>
     <%--        <script src="main/file/jquery-1.11.3.min.js" type="text/javascript"></script>--%>
 
-
+    <script src="https://code.jquery.com/jquery-migrate-1.3.0.js"></script>
     <script>
         $('.carousel').carousel({
             interval: 2000
@@ -30,6 +30,45 @@
 
 
         $(document).ready(function () {
+            var qwerty=0;
+            $.ajax
+            (
+                {
+                    url:'/openTicket',
+                    data:{"viewGuid": '<%=request.getParameter("id")%>'},
+                    type:'post',
+                    cache:false,
+                    success:function(data){
+                        console.log(data);
+
+                        for (i = 0; i < data.annotationList.length; i++){
+                            appendedText(data.annotationList[i].left, data.annotationList[i].top, data.annotationList[i].comment);
+                        qwerty++;
+                        }
+
+                        $('#guid').text(data.viewGuid);
+                        $('#publicIs').text(data.isPublic);
+                        $('#sentTime').text(data.postDate);
+                        $('#commentcount').text(qwerty);
+                        $('#name').text(data.name);
+                        $('#email').text(data.email);
+                        $('#windimensionsDB').text(data.screenWidth +' x '+data.screenHeight);
+                        $('#browserDB').text(data.navigatorString);
+                        $('#browserfontDB').text(data.browserFontSize);
+
+                    },
+                    error:function(){
+                        alert('error');}
+                }
+            );
+            $('#windimensions').text($(window).width() + 'x' + $(window).height());
+            $('#browsername').text(Object.keys(jQuery.browser)[0] + ' ' + jQuery.browser.version);
+            $('#browserfont').text(window.getComputedStyle(document.body,null).getPropertyValue("font-size"));
+
+            $(window).resize(function() {
+                $('#windimensions').text($(window).width() + 'x' + $(window).height());
+            });
+
             // alert();
             $('#tabs-container .tabs').hide().eq(0).hide();
             $('.div1').hide()
@@ -65,7 +104,37 @@
                     $("#contact_component").css("display", "none");
                 }
             });
+
+            // $(".boxmain").parent().css({position: 'relative'});
+            // $(".boxmain").css({top: 100px, left: 200px, position:'absolute'});
+
         });
+
+        function appendedText(left, top, comment ){//bu comment elave eden funksiyadi buttona vuranda comment yaranir
+            var txt1 = [
+                '<div class="boxmain draggable box' + count + '" style="position:absolute;width: 300px;  left: ' + left + 'px; top:' + top + 'px;z-index: 1002;" id="draggable" >',
+                '<div class="modal-dialog"  role="document">',
+                '<div style="width: 300px;"  class="modal-content">',
+                '<div style="top:-9px;margin-left:5px;position:absolute;width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:10px solid #888484;"></div>',
+                '<div class="modal-header">',
+                '<h5 class="modal-title">Comment: (moveable)</h5>',
+                '<button type="button" onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode); deleteBoxSelected(this); return false;" class="close" id="box' + count + '" data-dismiss="modal" aria-label="Close">',
+                ' <span aria-hidden="true">&times;</span>',
+                '</button>',
+
+                '</div>',
+                '<div class="modal-body">',
+                ' <textarea class="form-control tarea" id="tarea' + count + '" placeholder="write any text here" rows="3">'+comment+'</textarea>',
+                '</div>',
+                '</div>',
+                '</div>',
+                '</div>'
+            ].join("\n");
+
+            $("#mainAppend").append(txt1);
+            $(".draggable").draggable();
+            count++;
+        }
 
         function participate() {
             $('#weather_config').css("display", "block");
@@ -128,6 +197,7 @@
 
             // sendAjax();
         }
+
         function deleteBoxSelected(button) {
             // console.log("gelen value    "+button)
             var s =  $(button).attr("id");
@@ -327,234 +397,14 @@
 <body>
 
 <div style="position: absolute; z-index:1001;width:100%;" id="mainAppend">
-    <div id="fixed-social">
-        <div>
-            <a data-toggle="modal" onclick="report()" data-target="#exampleModalLong" class="fixed-facebook"
-               target="_blank">@<span>Give a feedback!</span></a>
-        </div>
+<%--    <div id="fixed-social">--%>
+<%--        <div>--%>
+<%--            <a data-toggle="modal" onclick="report()" data-target="#exampleModalLong" class="fixed-facebook"--%>
+<%--               target="_blank">@<span>Give a feedback!</span></a>--%>
+<%--        </div>--%>
 
-    </div>
-    <div class="main" style="text-align:center;">
+<%--    </div>--%>
 
-        <%--main box start--%>
-        <div id="tabs" class="div1 box">
-            <button onclick="close_main()" class="x">
-                X
-            </button>
-            <div><br></div>
-            <div><br></div>
-            <div>Feedback Center</div>
-
-
-            <div>You can</div>
-            <div>
-                <li>
-                    <button id="1" class="btn btn-primary btn-rounded btn-fw">send new feedback</button>
-                </li>
-            </div>
-            <div>or</div>
-            <div>
-                <li>
-                    <button id="2" class="btn btn-primary btn-rounded btn-fw">view submitted feedback</button>
-                </li>
-            </div>
-
-<%--            <div>--%>
-<%--                <div></div>--%>
-<%--                <br>--%>
-<%--                <div>Alternatives detected!</div>--%>
-<%--                <br>--%>
-<%--                <li>--%>
-<%--                    <button id="3" onclick="participate()" class="btn btn-primary btn-rounded btn-fw">participate--%>
-<%--                    </button>--%>
-<%--                </li>--%>
-<%--            </div>--%>
-
-        </div>
-        <%--main box end--%>
-
-        <%--send new feedback start--%>
-        <div id="tabs-container">
-            <div id="content1" class="tabs">
-
-                <div class="box">
-                    <button onclick="myFunction('1')" class="x">
-                        X
-                    </button>
-
-                    <div><br></div>
-                    <div><br></div>
-                    <div>Please fill in first before sending</div>
-                    <div>please enter valid email</div>
-
-                    <div>
-                        <input type="text" style="width: 80%;margin:auto;" id="ann_name" class="form-control"
-                               name="ann_name"
-                               placeholder="Your name (optional)">
-                    </div>
-                    <div>
-                        <input type="text" style="width: 80%; margin: auto;" class="form-control" id="ann_email"
-                               name="ann_email"
-                               placeholder="Your contact email (optional)">
-                    </div>
-                    <%--                    <div>please enter valid email</div>--%>
-
-                    <div>
-
-                        <!--<button  id="add">add new annotation</button>-->
-                        <button class="btn btn-primary btn-rounded btn-fw" type="button" onclick="appendText()"
-                                id="add">add new annotation
-                        </button>
-                        <div><br></div>
-                        <%--                        <button class="btn btn-primary btn-rounded btn-fw" id="send_add">send selected alternatives--%>
-                        <%--                        </button>--%>
-
-                    </div>
-                    <div><br></div>
-                    <div>
-
-                        <button  onclick="submitCoordinates()" class="btn btn-primary btn-rounded btn-fw"
-                                style="width: 80%;">Send</button>
-                    </div>
-
-                </div>
-            </div>
-            <%--send new feedback end--%>
-
-            <%--view submitted feedback start--%>
-            <div id="content2" class="tabs">
-
-                <div class="box">
-                    <button onclick="myFunction('2')" class="x">
-                        X
-                    </button>
-                    <div><br></div>
-                    <div><br></div>
-                    <div>Enter a specific ticket-ID, to see <br> already
-                        submitted feedback
-                    </div>
-                    <div>
-                        <input type="text" style="width: 80%;margin:auto;" class="form-control"
-                               placeholder="Enter ticket-ID">
-                        <li>
-                                                <button id="3" onclick="participate()" class="btn btn-primary btn-rounded btn-fw">Show
-                                                </button>
-                                            </li>
-                    </div>
-                </div>
-            </div>
-            <%--view submitted feedback end--%>
-
-            <%--participiate alternatives start--%>
-            <div id="content3" class="tabs">
-                <div class="box">
-                    <button onclick="myFunction('3')" class="x">
-                        X
-                    </button>
-
-                    <div><br></div>
-                    <div><br></div>
-                    <div>Please fill in first before sending</div>
-                    <div>
-                        <input type="text" style="width: 80%; margin:auto;" class="form-control" name="name"
-                               placeholder="Your name (optional)">
-                    </div>
-                    <div>
-                        <input type="text" style="width: 80%; margin:auto;" class="form-control" name="email"
-                               placeholder="Your contact email (optional)">
-                    </div>
-
-                    <div>
-
-                        <!--<button  id="add">add new annotation</button>-->
-
-                        <button class="btn btn-primary btn-rounded btn-fw" id="send_add">send selected alternatives
-                        </button>
-
-                    </div>
-                    <div><br></div>
-                    <div>
-
-                        <input type="submit" style="width: 80%;" onclick="" class="btn btn-primary btn-rounded btn-fw"
-                               value="Send"/>
-                    </div>
-                </div>
-
-            </div>
-            <%--participiate alternatives end--%>
-            <%--            asdfg start--%>
-            <%--            <div class="box">--%>
-            <%--                <button onclick="myFunction('3')" class="x">--%>
-            <%--                    X--%>
-            <%--                </button>--%>
-            <%--                <!-- Public viewable infos -->--%>
-            <%--                <div><br></div>--%>
-            <%--                <div><br></div>--%>
-            <%--                <table>--%>
-            <%--                    <tbody>--%>
-            <%--                    <tr>--%>
-            <%--                        <td>Guid:</td>--%>
-            <%--                        <td></td>--%>
-            <%--                    </tr>--%>
-            <%--                    <tr>--%>
-            <%--                        <td>Public:</td>--%>
-            <%--                        <td></td>--%>
-            <%--                    </tr>--%>
-            <%--                    <tr>--%>
-            <%--                        <td>Sent:</td>--%>
-            <%--                        <td></td>--%>
-            <%--                    </tr>--%>
-            <%--                    <tr>--%>
-            <%--                        <td>Viewed:</td>--%>
-            <%--                        <td></td>--%>
-            <%--                    </tr>--%>
-            <%--                    <tr>--%>
-            <%--                        <td>Items:</td>--%>
-            <%--                        <td></td>--%>
-            <%--                    </tr>--%>
-            <%--                    </tbody>--%>
-            <%--                </table>--%>
-
-            <%--                <!-- Private viewable infos -->--%>
-            <%--                <table>--%>
-            <%--                    <tbody>--%>
-            <%--                    <tr>--%>
-            <%--                        <td>Name:</td>--%>
-            <%--                        <td></td>--%>
-            <%--                    </tr>--%>
-            <%--                    <tr>--%>
-            <%--                        <td>Email:</td>--%>
-            <%--                        <td></td>--%>
-            <%--                    </tr>--%>
-
-            <%--                    </tbody>--%>
-            <%--                </table>--%>
-
-            <%--                <div>--%>
-            <%--                    <div>--%>
-            <%--                        Ticket settings--%>
-            <%--                    </div>--%>
-            <%--                    <div>--%>
-            <%--                        Local settings--%>
-            <%--                    </div>--%>
-            <%--                </div>--%>
-            <%--                <div>Please adjust the red properties, a <br>change of browser zoom can help.</div>--%>
-            <%--                <div>Window dimensions</div>--%>
-            <%--                <div>--%>
-            <%--                    <div></div>--%>
-            <%--                    <div><span>1536</span> x <span>437</span></div>--%>
-            <%--                </div>--%>
-            <%--                <div>Browser</div>--%>
-            <%--                <div>--%>
-            <%--                    <div></div>--%>
-            <%--                    <div></div>--%>
-            <%--                </div>--%>
-            <%--                <div>Browser font-size</div>--%>
-
-            <%--            </div>--%>
-            <%--            asdfg end --%>
-        </div>
-    </div>
 </div>
 
 <div class="topbar">
@@ -683,7 +533,7 @@
 
         <!-- theme_hsmv: Partials/Content/Header.html [begin] -->
         <div class="header__top-wrapper">
-            <div class="logo"><a href="https://www.uni-rostock.de/en/" title="Universität Rostock"
+            <div class="logo"><a href="http://localhost:8084/" title="Universität Rostock"
                                  class="logo-main"><img src="main/file/csm_rostock_logo_0afd2db082.png" width="800"
                                                         height="174" alt="Universität Rostock"
                                                         title="Universität Rostock"></a></div>
@@ -1280,7 +1130,7 @@
                         of Computer Science and Electrical Engineering </a><br/> Computer Science Division<br/>
                         Albert-Einstein-Str. 22<br/> 18059 Rostock</p>
                     <p>Secretariat<br/> Mrs. Schulze<br/> Room 163<br/> Phone.: +49 381 498 7451<br/> Fax: +49 381 498
-                        7452<br/> eMail: informatik@uni-rostock.de</a></p>
+                        7452<br/><a href="mailto:informatik@uni-rostock.de"> eMail: informatik@uni-rostock.de</a></p>
 
 
                     <img id="contact_component" src="main/file/285.png" style="width: 100%; display: none;">
@@ -1462,6 +1312,74 @@
 <%--        });--%>
 <%--    })(jQuery);--%>
 <%--</script>--%>
+<div id="infodiv" style="background-color: #e2e2e2; z-index:1000; height:auto; padding-top:20px; width:300px; position: fixed; top:10px; right:10px; color:black; ">
+    <div align="center"><u>Ticket</u></div><br>
+    <table style="padding: 10px;" border="0">
+        <tr>
+            <td><b>Guid</b></td>
+            <td  id="guid" >aaaa</td>
+        </tr>
+        <tr>
+            <td><b>Public</b></td>
+            <td  id="publicIs" >aaaa</td>
+        </tr>
+        <tr>
+            <td><b>Sent</b></td>
+            <td  id="sentTime" >aaaa</td>
+        </tr>
+        <tr>
+            <td><b>Items</b></td>
+            <td id="commentcount" >aaaa</td>
+        </tr>
+        <tr>
+            <td><b>Name</b></td>
+            <td id="name" >aaaa</td>
+        </tr>
+        <tr>
+            <td><b>Email</b></td>
+            <td id="email" >aaaa</td>
+        </tr>
 
+    </table>
+    <table style="padding:10px; border:0;" class="centertable">
+        <tr>
+            <td><b>Ticket settings</b></td>
+            <td><b>Local settings</b></td>
+        </tr>
+        <tr><td colspan="2">Please adjust the red properties, a change of browser zoom can help.</td></tr>
+        <tr><td colspan="2"><b>Windows dimensions</b></td></tr>
+        <tr>
+            <td id="windimensionsDB">10x10</td>
+            <td id="windimensions" style="color:red;">-</td>
+        </tr>
+        <tr><td colspan="2"><b>Browser</b></td></tr>
+        <tr>
+            <td id="browserDB">10x10</td>
+            <td id="browsername">-</td>
+        </tr>
+        <tr><td colspan="2"><b>Browser font-size</b></td></tr>
+        <tr>
+            <td id="browserfontDB">10x10</td>
+            <td id="browserfont">-</td>
+        </tr>
+
+    </table>
+    <style>
+        table tr {
+            border-bottom: 0px;
+        }
+
+        table tr td {
+
+            font-size: 14px!important;
+            padding:9px;
+        }
+
+        .centertable tr td {
+            text-align: center;
+        }
+    </style>
+
+</div>
 </body>
 </html>

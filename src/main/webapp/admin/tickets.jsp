@@ -70,10 +70,10 @@
             <!-- Logo -->
             <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
                 <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-                    <a class="navbar-brand brand-logo" href="index.html">
-                        <img src="assets/images/logo.svg" alt="logo" /> </a>
-                    <a class="navbar-brand brand-logo-mini" href="index.html">
-                        <img src="assets/images/logo-mini.svg" alt="logo" /> </a>
+                    <a class="navbar-brand brand-logo" href="/">
+                        <img src="http://localhost:8084/main/file/csm_rostock_logo_0afd2db082.png" alt="logo" /> </a>
+                    <a class="navbar-brand brand-logo-mini" href="/">
+                        <img src="http://localhost:8084/main/file/csm_rostock_logo_0afd2db082.png" alt="logo" /> </a>
                 </div>
                 <%@ include file="header.jsp" %>
 
@@ -138,7 +138,8 @@
                                                     <i class="mdi mdi-star-outline"></i>View</button>
 
 
-
+                                                <a href="/deleteTicket?viewGuid=${t.viewGuid}" class="btn btn-outline-danger btn-fw" role="button" aria-pressed="true"><i
+                                                        class="fa fa-trash-o mr-3"></i>Delete</a>
 
                                             </td>
 

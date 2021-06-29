@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Table(name = "ticket")
 @Entity
@@ -38,6 +40,9 @@ public class Ticket {
 
     @Transient
     private Long annotationCount;
+
+    @Transient
+    private List<Annotation> annotationList = new ArrayList<>();
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id

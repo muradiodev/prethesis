@@ -9,11 +9,14 @@ import com.prethesis.entity.Ticket;
 import com.prethesis.repo.RepoAnnotation;
 import com.prethesis.repo.RepoTicket;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+//import javax.ws.rs.Path;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -40,8 +43,8 @@ public class ControllerTicket {
 
         Date now = new Date();
         String viewGuid = generateToken();
-        Ticket ticket = new Ticket(null, null, null, null, name, email,
-                null, null, null, null, viewGuid,
+        Ticket ticket = new Ticket("0", "0", "833", "1688", name, email,
+                "Chrome", "16px", null, null, viewGuid,
                 null, now, 1);
         repoTicket.save(ticket);
 
@@ -58,7 +61,7 @@ public class ControllerTicket {
             System.out.println(annotations.get(i).getLeft());
             System.out.println(" --- ");
 
-            an = new Annotation(viewGuid, annotations.get(i).getComment(), annotations.get(i).getTop(), annotations.get(i).getLeft(), viewGuid);
+            an = new Annotation(viewGuid, annotations.get(i).getComment(), annotations.get(i).getTop(), annotations.get(i).getLeft(), viewGuid,1);
             repoAnnotation.save(an);
 
 
@@ -101,11 +104,9 @@ public class ControllerTicket {
     @GetMapping("/viewTicket")
     public String getTicketDetails(@RequestParam("viewGuid") String viewGuid, Model md) {
         Ticket ticket = repoTicket.findTicketsByviewGuid(viewGuid);
-//        System.out.println(repoTicket.findTicketsByviewGuid(viewGuid).);
         List<Ticket> t_list = new ArrayList<>();
         t_list.add(ticket);
         md.addAttribute("ticket", t_list);
-        System.out.println(ticket);
 
         List<Annotation> anno = repoAnnotation.findAnnotationByguidAndIsActive(viewGuid, 1);
         md.addAttribute("anns", anno);
@@ -127,6 +128,7 @@ public class ControllerTicket {
         repoAnnotation.save(annotation);
         return "redirect:/viewTicket?viewGuid="+viewGuid;
     }
+
 
 //    @RequestMapping("/getNameReq")
 //    public String getNameReq(@RequestParam("viewGuid") String viewGuid) {

@@ -30,12 +30,13 @@ public class Annotation {
     @Column
     private int isActive;
 
-    public Annotation( String guid, String comment, String top, String left, String ticketId) {
+    public Annotation( String guid, String comment, String top, String left, String ticketId,int isActive) {
         this.guid = guid;
         this.comment = comment;
         this.top = top;
         this.left = left;
         this.ticketId = ticketId;
+        this.isActive = isActive;
     }
 
     public Annotation() {

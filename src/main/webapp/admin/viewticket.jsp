@@ -71,12 +71,13 @@
     <!-- Logo -->
     <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-            <a class="navbar-brand brand-logo" href="index.html">
-                <img src="assets/images/logo.svg" alt="logo"/> </a>
-            <a class="navbar-brand brand-logo-mini" href="index.html">
-                <img src="assets/images/logo-mini.svg" alt="logo"/> </a>
+            <a class="navbar-brand brand-logo" href="/">
+                <img src="http://localhost:8084/main/file/csm_rostock_logo_0afd2db082.png" alt="logo" /> </a>
+            <a class="navbar-brand brand-logo-mini" href="/">
+                <img src="http://localhost:8084/main/file/csm_rostock_logo_0afd2db082.png" alt="logo" /> </a>
         </div>
         <%@ include file="header.jsp" %>
+
     </nav>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
@@ -86,16 +87,17 @@
         <div class="main-panel">
             <div class="content-wrapper">
 
-                <div>
-                    <h2 class="float-left mb-3">Ticket</h2>
-                    <button type="button" class="btn float-right m-3 btn-secondary" style="">
-                        <i class="fa fa-trash mr-3"></i>Delete
-                    </button>
-                </div>
+
                 <c:forEach items="${ticket}" var = "t">
 
 
                 <div class="card myclear mb-3">
+                    <div>
+                        <h2 class="float-left mb-3">Ticket</h2>
+                        <button type="button" class="btn float-right m-3 btn-secondary" style="">
+                            <i class="fa fa-trash mr-3"></i>Delete
+                        </button>
+                    </div>
                     <div class="card-body">
                         <div class="row mb-2">
                             <div class="text-sm-right col-sm-3">
@@ -119,39 +121,39 @@
                         </div>
                         <div class="row mt-4 mb-2">
                             <div class="text-sm-right col-sm-3"><b>Name:</b></div>
-                            <div class="col">murad</div>
+                            <div class="col">${t.name}</div>
 
                         </div>
                         <div class="row mb-2">
                             <div class="text-sm-right col-sm-3"><b>Email:</b></div>
-                            <div class="col">-</div>
+                            <div class="col">${t.email}</div>
 
                         </div>
                         <div class="row mb-2">
                             <div class="text-sm-right col-sm-3"><b>Url:</b></div>
-                            <div class="col"><a href="https://tischlerei-hertel.de/annotation/">https://tischlerei-hertel.de/annotation/</a>
-                                <button type="button" class="btn float-right btn-secondary btn-sm">Show ticket at url
-                                </button>
+                            <div class="col"><a href="http://localhost:8084/indexOpen?id=${t.viewGuid}" target="_blank">http://localhost:8084/indexOpen?id=${t.viewGuid}</a>
+<%--                                <button type="button" class="btn float-right btn-secondary btn-sm">Show ticket at url--%>
+<%--                                </button>--%>
                             </div>
 
                         </div>
                         <div class="row mb-2">
                             <div class="text-sm-right col-sm-3"><b>Public:</b></div>
-                            <div class="col"><i class="fa fa-remove"></i></div>
+                            <div class="col">${t.isPublic}<i class="fa fa-remove"></i></div>
                         </div>
                         <div class="row mt-4 mb-2">
                             <div class="text-sm-right col-sm-3"><b>Browser:</b></div>
-                            <div class="dont-break-out col">Firefox 73</div>
+                            <div class="dont-break-out col">${t.navigatorString}</div>
 
                         </div>
                         <div class="row mb-2">
                             <div class="text-sm-right col-sm-3"><b>Browser window:</b></div>
-                            <div class="dont-break-out col">1536 x 728</div>
+                            <div class="dont-break-out col">${t.screenWidth} x ${t.screenHeight}</div>
 
                         </div>
                         <div class="row mb-2">
                             <div class="text-sm-right col-sm-3"><b>Browser font size:</b></div>
-                            <div class="dont-break-out col">16px</div>
+                            <div class="dont-break-out col">${t.browserFontSize} </div>
 
                         </div>
 

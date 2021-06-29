@@ -29,26 +29,26 @@
 
 
                         <li class="nav-item">
-                            <a class="nav-link" href="admin/tickets.jsp">
+                            <a class="nav-link" href="/tickets">
                                 <i class="menu-icon typcn typcn-document-text"></i>
                                 <span class="menu-title">Tickets</span>
                             </a>
                         </li>
 
+<%--                        <li class="nav-item">--%>
+<%--                            <a class="nav-link" href="admin/annotations.jsp">--%>
+<%--                                <i class="menu-icon typcn typcn-document-text"></i>--%>
+<%--                                <span class="menu-title">Annotations</span>--%>
+<%--                            </a>--%>
+<%--                        </li>--%>
+<%--                        <li class="nav-item">--%>
+<%--                            <a class="nav-link" href="/logout">--%>
+<%--                                <i class="menu-icon typcn typcn-document-text"></i>--%>
+<%--                                <span class="menu-title">Settings</span>--%>
+<%--                            </a>--%>
+<%--                        </li>--%>
                         <li class="nav-item">
-                            <a class="nav-link" href="admin/annotations.jsp">
-                                <i class="menu-icon typcn typcn-document-text"></i>
-                                <span class="menu-title">Annotations</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="admin/settings.jsp">
-                                <i class="menu-icon typcn typcn-document-text"></i>
-                                <span class="menu-title">Settings</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="admin/logout.jsp">
+                            <a class="nav-link" href="/logout">
                                 <i class="menu-icon typcn typcn-document-text"></i>
                                 <span class="menu-title">Logout</span>
                             </a>
