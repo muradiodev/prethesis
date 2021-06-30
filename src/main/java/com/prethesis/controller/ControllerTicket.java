@@ -8,6 +8,9 @@ import com.prethesis.entity.BasicAnnotation;
 import com.prethesis.entity.Ticket;
 import com.prethesis.repo.RepoAnnotation;
 import com.prethesis.repo.RepoTicket;
+import com.prethesis.service.TicketService;
+import com.prethesis.service.impl.TicketServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,122 +27,44 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 //@RequestMapping("/tickets")
 public class ControllerTicket {
 
+//    private final RepoTicket repoTicket;
+//    private final RepoAnnotation repoAnnotation;
 
-    @Autowired
-    private RepoTicket repoTicket;
+    private final TicketServiceImpl ticketService;
 
-    @Autowired
-    private RepoAnnotation repoAnnotation;
 
     @PostMapping("/tickets")
     public String addTicket(HttpServletRequest request, @RequestBody List<BasicAnnotation> annotations) throws IOException {
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        System.out.println(" name " + name + " email " + email);
-        System.out.println(" ");
-
-        Date now = new Date();
-        String viewGuid = generateToken();
-        Ticket ticket = new Ticket("0", "0", "833", "1688", name, email,
-                "Chrome", "16px", null, null, viewGuid,
-                null, now, 1);
-        repoTicket.save(ticket);
-
-
-//        List<String> comment_list = Arrays.asList(comment.split(","));
-//        ArrayList<String> list = new ArrayList<String>();
-//        for (int i = 0; i < comment_list.size(); i++) {
-//            list.add(comment_list.get(i));
-//        }
-        Annotation an;
-        for (int i = 0; i < annotations.size(); i++) {
-            System.out.println(annotations.get(i).getComment());
-            System.out.println(annotations.get(i).getTop());
-            System.out.println(annotations.get(i).getLeft());
-            System.out.println(" --- ");
-
-            an = new Annotation(viewGuid, annotations.get(i).getComment(), annotations.get(i).getTop(), annotations.get(i).getLeft(), viewGuid,1);
-            repoAnnotation.save(an);
-
-
-        }
+        ticketService.addTicket(request, annotations);
         return "main/index";
     }
 
-
-    protected static SecureRandom random = new SecureRandom();
-
-    public static String generateToken() {
-
-        long longToken = Math.abs(random.nextLong());
-        String random = Long.toString(longToken, 16);
-//        System.out.println("asdfg:" + random);
-        return ("asdfg:" + random);
-    }
-
-//    @ResponseBody
-//    @RequestMapping("/getNameAj/{viewGuid}")
-//    public ResponseEntity getNameAj(@PathVariable("name") String viewGuid) {
-//        System.out.println("asdfg");
-//        Ticket ticket = repoTicket.findTicketsByviewGuid(viewGuid);
-////        System.out.println(repoTicket.findTicketsByviewGuid(viewGuid).);
-//        return ResponseEntity.status(HttpStatus.OK).body(ticket);
-//    }
-
     @GetMapping("/tickets")
     public String getAll(Model md) {
-        List<Ticket> tickets = repoTicket.findAllByIsActiveOrderByPostDateDesc(1);
-        for (Ticket ticket : tickets) {
-           Long annotationCount =  repoAnnotation.countAllByTicketId(ticket.getViewGuid());
-            ticket.setAnnotationCount(annotationCount);
-        }
-        md.addAttribute("tickets", tickets);
-        System.out.println(tickets);
+        ticketService.getAll(md);
         return "admin/tickets";
     }
 
     @GetMapping("/viewTicket")
     public String getTicketDetails(@RequestParam("viewGuid") String viewGuid, Model md) {
-        Ticket ticket = repoTicket.findTicketsByviewGuid(viewGuid);
-        List<Ticket> t_list = new ArrayList<>();
-        t_list.add(ticket);
-        md.addAttribute("ticket", t_list);
-
-        List<Annotation> anno = repoAnnotation.findAnnotationByguidAndIsActive(viewGuid, 1);
-        md.addAttribute("anns", anno);
+        ticketService.getTicketDetails(viewGuid, md);
         return "admin/viewticket";
     }
 
     @GetMapping("/deleteTicket")
     public String deleteTicketByViewGuid(@RequestParam("viewGuid") String viewGuid) {
-        Ticket ticket = repoTicket.findTicketsByviewGuid(viewGuid);
-        ticket.setIsActive(0);
-        repoTicket.save(ticket);
+        ticketService.deleteTicketByViewGuid(viewGuid);
         return "redirect:/tickets";
     }
 
     @GetMapping("/deleteAnnotation")
     public String deleteAnnotationByViewGuid(@RequestParam int id, @RequestParam("viewGuid") String viewGuid) {
-        Annotation annotation = repoAnnotation.findById(id);
-        annotation.setIsActive(0);
-        repoAnnotation.save(annotation);
+        ticketService.deleteAnnotationByViewGuid(id, viewGuid);
         return "redirect:/viewTicket?viewGuid="+viewGuid;
     }
 
-
-//    @RequestMapping("/getNameReq")
-//    public String getNameReq(@RequestParam("viewGuid") String viewGuid) {
-//        System.out.println("asdfg");
-//        Ticket ticket = repoTicket.findTicketsByviewGuid(viewGuid);
-//        List<Annotation> annotation = repoAnnotation.findAnnotationByguid(viewGuid);
-//        System.out.println(ticket.getName() + "  " + ticket);
-//        for (int i = 0; i < annotation.size(); i++) {
-//            System.out.println(annotation.get(i).getComment() + "  " + ticket);
-//        }
-//
-//        return "";
-//    }
 }
