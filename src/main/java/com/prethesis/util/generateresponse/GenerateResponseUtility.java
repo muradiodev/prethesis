@@ -10,15 +10,15 @@ import java.util.List;
 public class GenerateResponseUtility {
 
     public static GenerateResponse<Integer, String, TicketView, ResponseData<TicketView>> ticketDetail = (code, message, data) ->
-            ResponseData.<Tickets>builder()
+            ResponseData.<TicketView>builder()
                     .code(code)
                     .message(message)
                     .body(data)
                     .build();
 
 
-    public static GenerateResponse<Integer, String, List<Tickets>, ResponseData<List<TicketView>>> ticketDetails = (code, message, list) ->
-            ResponseData.<Tickets>builder()
+    public static GenerateResponse<Integer, String, List<TicketView>, ResponseData<List<TicketView>>> ticketDetails = (code, message, list) ->
+            ResponseData.<List<TicketView>>builder()
                     .code(code)
                     .message(message)
                     .body(list)
