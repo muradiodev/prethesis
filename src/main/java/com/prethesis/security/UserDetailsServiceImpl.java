@@ -1,7 +1,5 @@
 package com.prethesis.security;
 
-import com.prethesis.entity.User;
-import com.prethesis.repo.RepoUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

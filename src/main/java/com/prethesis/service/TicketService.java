@@ -1,16 +1,13 @@
 package com.prethesis.service;
 
-import com.prethesis.entity.BasicAnnotation;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface TicketService {
 
-    void addTicket(HttpServletRequest request, List<BasicAnnotation> annotations);
+    void addTicket(HttpServletRequest request);
 
     void getAll(Model md);
 

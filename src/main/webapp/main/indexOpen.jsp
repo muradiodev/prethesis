@@ -40,11 +40,12 @@
                     cache:false,
                     success:function(data){
                         console.log(data);
-
+                        alert("super");
                         for (i = 0; i < data.annotationList.length; i++){
                             appendedText(data.annotationList[i].left, data.annotationList[i].top, data.annotationList[i].comment);
                         qwerty++;
                         }
+
 
                         $('#guid').text(data.viewGuid);
                         $('#publicIs').text(data.isPublic);

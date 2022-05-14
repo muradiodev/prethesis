@@ -1,18 +1,17 @@
 package com.prethesis.repo;
 
-import com.prethesis.entity.Ticket;
+import com.prethesis.entity.Tickets;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 
-public interface RepoTicket extends JpaRepository<Ticket, Integer> {
+public interface RepoTicket extends JpaRepository<Tickets, Integer> {
 
 
-    List<Ticket> findAllByIsActiveOrderByPostDateDesc(int isActive);
+    List<Tickets> findAllByIsActiveOrderByPostDateDesc(int isActive);
 
-    Ticket findTicketsByviewGuid(String viewGuid);
+    Tickets findTicketsByviewGuid(String viewGuid);
 
 
 
