@@ -1,64 +1,43 @@
 package com.prethesis.controller;
 
 
-import com.prethesis.service.impl.TicketServiceImpl;
+import com.prethesis.entity.Tickets;
+import com.prethesis.service.ResponseData;
+import com.prethesis.service.TicketService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-//import javax.ws.rs.Path;
 import java.io.IOException;
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
-//@RequestMapping("/tickets")
+@Slf4j
+@RequestMapping("api/v1/")
 public class ControllerTicket {
 
-//    private final RepoTicket repoTicket;
-//    private final RepoAnnotation repoAnnotation;
-
-    private final TicketServiceImpl ticketService;
+    private final TicketService ticketService;
 
 
-    @PostMapping("/tickets")
-    public String addTicket(HttpServletRequest request) throws IOException {
-        System.out.println("Tickets geldi");
-        ticketService.addTicket(request);
-        return "main/index";
+    @PostMapping("/tickets/name/{name}/email/{email}")
+    public ResponseEntity<ResponseData<Tickets>> create(@PathVariable String name, @PathVariable String email) throws IOException {
+        log.info("starting get name: {} and email: {}", name, email);
+        return ResponseEntity.ok(ticketService.create(name, email));
     }
 
     @GetMapping("/tickets")
-    public String getAll(Model md) {
-        ticketService.getAll(md);
-        return "admin/tickets";
+    public ResponseEntity<ResponseData<List<Tickets>>> getAll() {
+        log.info("starting getAll:");
+        return ResponseEntity.ok(ticketService.getAll());
     }
 
-    @GetMapping("/viewTicket")
-    public String getTicketDetails(@RequestParam String viewGuid, Model md) {
-        ticketService.getTicketDetails(viewGuid, md);
-        return "admin/viewticket";
-    }
-
-    @GetMapping("/deleteTicket")
-    public String deleteTicketByViewGuid(@RequestParam String viewGuid) {
-        ticketService.deleteTicketByViewGuid(viewGuid);
-        return "redirect:/tickets";
-    }
-
-    @GetMapping("/openTicket")
-    public String openTicket(@RequestParam String viewGuid, Model md) {
-        ticketService.getTicketDetails(viewGuid, md);
-        System.out.println("test " +  ticketService);
-        return "";
-    }
-
-    @GetMapping("/deleteAnnotation")
-    public String deleteAnnotationByViewGuid(@RequestParam int id, @RequestParam String viewGuid) {
-        ticketService.deleteAnnotationByViewGuid(id, viewGuid);
-        return "redirect:/viewTicket?viewGuid=" + viewGuid;
+    @GetMapping("/viewTicket/{id}")
+    public ResponseEntity<ResponseData<Tickets>> getTicketDetails(@PathVariable String id) {
+        log.info("starting getTicketDetails:");
+        return ResponseEntity.ok(ticketService.getTicketDetails(Integer.parseInt(id)));
     }
 
 }

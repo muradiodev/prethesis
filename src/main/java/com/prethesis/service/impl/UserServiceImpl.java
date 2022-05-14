@@ -1,6 +1,7 @@
 package com.prethesis.service.impl;
 
 import com.prethesis.controller.LoginController;
+import com.prethesis.entity.User;
 import com.prethesis.security.PdfUserDetails;
 import com.prethesis.service.UserService;
 import lombok.RequiredArgsConstructor;

@@ -1,81 +1,72 @@
 package com.prethesis.service.impl;
 
 import com.prethesis.entity.Tickets;
-import com.prethesis.repo.RepoTicket;
+import com.prethesis.service.ResponseData;
 import com.prethesis.service.TicketService;
+import com.prethesis.util.generateresponse.GenerateResponseUtility;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
+import static com.prethesis.util.generateresponse.Constants.*;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TicketServiceImpl implements TicketService {
 
-    private final RepoTicket repoTicket;
-
-    protected static SecureRandom random = new SecureRandom();
-
-    public static String generateToken() {
-        long longToken = Math.abs(random.nextLong());
-        String random = Long.toString(longToken, 16);
-        return (random);
-    }
+    private final TicketService ticketService;
 
     @Override
-    public void addTicket(HttpServletRequest request) {
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-
-        Date now = new Date();
-        String viewGuid = generateToken();
+    public ResponseData<Tickets> create(String name, String email) {
         Tickets ticket = Tickets.builder()
-//                .closed("0")
-//                .isPublic("0")
-//                .screenHeight("833")
-//                .screenWidth("1688")
-//                .name(name)
-//                .email(email)
-//                .navigatorString("Chrome 55")
-//                .browserFontSize("16px")
-//                .url(null)
-//                .sent(null)
-//                .viewGuid(viewGuid)
-//                .viewedAt(null)
-//                .postDate(now)
-//                .isActive(1)
+                .screenHeight("833")
+                .screenWidth("1688")
+                .name(name)
+                .email(email)
+                .browserName("Chrome 55")
+                .browserFontSize("16px")
+                .postDate(LocalDate.now())
+                .isActive(1)
                 .build();
-        repoTicket.save(ticket);
+        ticketService.save(ticket);
 
+        return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, ticket);
+    }
+
+    @Override
+    public ResponseData<List<Tickets>> getAll() {
+        List<Tickets> tickets = ticketService.findAll();
+
+        if (tickets.size() == 0) {
+            log.info("ticket detail not found : ");
+            return GenerateResponseUtility.ticketDetails.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, null);
+        }
+        log.info("ticket detail found : ");
+        return GenerateResponseUtility.ticketDetails.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, tickets);
 
     }
 
     @Override
-    public void getAll(Model md) {
-        List<Tickets> tickets = repoTicket.findAllByIsActiveOrderByPostDateDesc(1);
+    public ResponseData<Tickets> getTicketDetails(int id) {
+        Optional<Tickets> ticket = ticketService.findById(id);
+        if (!ticket.isPresent()) {
+            log.info("ticket detail not found : ");
+            return GenerateResponseUtility.ticketDetail.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, null);
+        }
+        log.info("ticket detail found : ");
 
-        md.addAttribute("tickets", tickets);
-        System.out.println(tickets);
+        return ticketService.findById(id).map(event -> ResponseData.<Tickets>builder()
+                .code(SUCCESS_CODE)
+                .message(SUCCESS_MESSAGE)
+                .body(ticket.get())
+                .build()).orElse(ResponseData.<Tickets>builder()
+                .code(NOT_FOUND_CODE)
+                .message(NOT_FOUND_MESSAGE)
+                .build());
     }
-
-    @Override
-    public void getTicketDetails(String viewGuid, Model md) {
-        Tickets ticket = repoTicket.findTicketsByviewGuid(viewGuid);
-        List<Tickets> t_list = new ArrayList<>();
-        t_list.add(ticket);
-        md.addAttribute("ticket", t_list);
-    }
-
-    @Override
-    public void deleteTicketByViewGuid(String viewGuid) {
-        Tickets ticket = repoTicket.findTicketsByviewGuid(viewGuid);
-        ticket.setIsActive(0);
-        repoTicket.save(ticket);
-    }
-
 }

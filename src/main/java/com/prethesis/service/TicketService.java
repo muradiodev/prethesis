@@ -1,19 +1,15 @@
 package com.prethesis.service;
 
-import org.springframework.ui.Model;
+import com.prethesis.entity.Tickets;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-public interface TicketService {
+public interface TicketService extends JpaRepository<Tickets, Integer> {
 
-    void addTicket(HttpServletRequest request);
+    ResponseData<Tickets> create(String name, String email);
 
-    void getAll(Model md);
+    ResponseData<List<Tickets>> getAll();
 
-    void getTicketDetails(String viewGuid, Model md);
-
-    void deleteTicketByViewGuid(String viewGuid);
-
-    void deleteAnnotationByViewGuid(int id, String viewGuid);
+    ResponseData<Tickets> getTicketDetails(int id);
 }
