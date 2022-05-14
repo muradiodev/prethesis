@@ -1,6 +1,8 @@
 package com.prethesis.entity;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,15 +11,16 @@ import java.util.UUID;
 
 @Table(name = "tickets")
 @Entity
-@ToString
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+//@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Tickets {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", insertable = false, updatable = false, nullable = false)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", columnDefinition = "VARCHAR(255)")
     private UUID id;
 
     @Column(name = "name", nullable = false)

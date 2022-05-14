@@ -1,7 +1,8 @@
 package com.prethesis.service.impl;
 
+import com.prethesis.model.dtos.TicketView;
 import com.prethesis.entity.Tickets;
-import com.prethesis.service.ResponseData;
+import com.prethesis.model.ResponseData;
 import com.prethesis.service.TicketService;
 import com.prethesis.util.generateresponse.GenerateResponseUtility;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +18,12 @@ import static com.prethesis.util.generateresponse.Constants.*;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TicketServiceImpl implements TicketService {
+public abstract class TicketServiceImpl implements TicketService {
 
     private final TicketService ticketService;
 
     @Override
-    public ResponseData<Tickets> create(String name, String email) {
+    public ResponseData<TicketView> create(String name, String email) {
         Tickets ticket = Tickets.builder()
                 .screenHeight("833")
                 .screenWidth("1688")
@@ -34,12 +35,11 @@ public class TicketServiceImpl implements TicketService {
                 .isActive(1)
                 .build();
         ticketService.save(ticket);
-
-        return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, ticket);
+        return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, null);
     }
 
     @Override
-    public ResponseData<List<Tickets>> getAll() {
+    public ResponseData<List<TicketView>> getAll() {
         List<Tickets> tickets = ticketService.findAll();
 
         if (tickets.size() == 0) {
@@ -48,25 +48,25 @@ public class TicketServiceImpl implements TicketService {
         }
         log.info("ticket detail found : ");
         return GenerateResponseUtility.ticketDetails.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, tickets);
-
     }
 
     @Override
-    public ResponseData<Tickets> getTicketDetails(int id) {
+    public ResponseData<TicketView> getTicketDetails(int id) {
         Optional<Tickets> ticket = ticketService.findById(id);
         if (!ticket.isPresent()) {
             log.info("ticket detail not found : ");
             return GenerateResponseUtility.ticketDetail.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, null);
         }
         log.info("ticket detail found : ");
-
-        return ticketService.findById(id).map(event -> ResponseData.<Tickets>builder()
-                .code(SUCCESS_CODE)
-                .message(SUCCESS_MESSAGE)
-                .body(ticket.get())
-                .build()).orElse(ResponseData.<Tickets>builder()
-                .code(NOT_FOUND_CODE)
-                .message(NOT_FOUND_MESSAGE)
-                .build());
+        return null;
+//
+//        return ticketService.findById(id).map(event -> ResponseData.<Tickets>builder()
+//                .code(SUCCESS_CODE)
+//                .message(SUCCESS_MESSAGE)
+//                .body(ticket.get())
+//                .build()).orElse(ResponseData.<Tickets>builder()
+//                .code(NOT_FOUND_CODE)
+//                .message(NOT_FOUND_MESSAGE)
+//                .build());
     }
 }

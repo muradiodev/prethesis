@@ -1,4 +1,4 @@
-package com.prethesis.service;
+package com.prethesis.model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

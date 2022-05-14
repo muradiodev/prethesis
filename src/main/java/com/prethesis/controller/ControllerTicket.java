@@ -2,12 +2,12 @@ package com.prethesis.controller;
 
 
 import com.prethesis.entity.Tickets;
-import com.prethesis.service.ResponseData;
+import com.prethesis.model.ResponseData;
+import com.prethesis.model.dtos.TicketView;
 import com.prethesis.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -23,19 +23,19 @@ public class ControllerTicket {
 
 
     @PostMapping("/tickets/name/{name}/email/{email}")
-    public ResponseEntity<ResponseData<Tickets>> create(@PathVariable String name, @PathVariable String email) throws IOException {
+    public ResponseEntity<ResponseData<TicketView>> create(@PathVariable String name, @PathVariable String email) throws IOException {
         log.info("starting get name: {} and email: {}", name, email);
         return ResponseEntity.ok(ticketService.create(name, email));
     }
 
     @GetMapping("/tickets")
-    public ResponseEntity<ResponseData<List<Tickets>>> getAll() {
+    public ResponseEntity<ResponseData<List<TicketView>>> getAll() {
         log.info("starting getAll:");
         return ResponseEntity.ok(ticketService.getAll());
     }
 
     @GetMapping("/viewTicket/{id}")
-    public ResponseEntity<ResponseData<Tickets>> getTicketDetails(@PathVariable String id) {
+    public ResponseEntity<ResponseData<TicketView>> getTicketDetails(@PathVariable String id) {
         log.info("starting getTicketDetails:");
         return ResponseEntity.ok(ticketService.getTicketDetails(Integer.parseInt(id)));
     }
