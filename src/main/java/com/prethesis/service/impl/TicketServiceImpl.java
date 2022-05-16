@@ -76,12 +76,12 @@ public class TicketServiceImpl implements TicketService {
             return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, eventDetailsView.get());
         }
 
-        return repoTicket.findById(id).map(event -> ResponseData.<EventDetailsView>builder()
+        return repoTicket.findById(id).map(tickets -> ResponseData.<TicketView>builder()
                 .code(SUCCESS_CODE)
                 .message(SUCCESS_MESSAGE)
-                .body(createEventDetailsView(event))
+                .body(getTicketView(tickets))
                 .build()
-        ).orElse(ResponseData.<EventDetailsView>builder()
+        ).orElse(ResponseData.<TicketView>builder()
                 .code(NOT_FOUND_CODE)
                 .message(NOT_FOUND_MESSAGE)
                 .build());
