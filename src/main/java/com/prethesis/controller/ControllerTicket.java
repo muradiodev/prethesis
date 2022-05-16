@@ -22,10 +22,10 @@ public class ControllerTicket {
     private final TicketService ticketService;
 
 
-    @PostMapping("/tickets/name/{name}/email/{email}")
-    public ResponseEntity<ResponseData<TicketView>> create(@PathVariable String name, @PathVariable String email) throws IOException {
-        log.info("starting get name: {} and email: {}", name, email);
-        return ResponseEntity.ok(ticketService.create(name, email));
+    @PostMapping("/tickets")
+    public ResponseEntity<ResponseData<TicketView>> create(@RequestBody TicketView ticketView) throws IOException {
+        log.info("starting get ticket {}", ticketView);
+        return ResponseEntity.ok(ticketService.create(ticketView));
     }
 
     @GetMapping("/tickets")

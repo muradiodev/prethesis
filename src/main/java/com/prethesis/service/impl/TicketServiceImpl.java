@@ -1,22 +1,18 @@
 package com.prethesis.service.impl;
 
+import com.prethesis.mapper.TicketMapper;
 import com.prethesis.model.dtos.TicketView;
 import com.prethesis.entity.Tickets;
 import com.prethesis.model.ResponseData;
 import com.prethesis.repo.RepoTicket;
-import com.prethesis.repo.RepoTicketView;
-import com.prethesis.repo.RepoUser;
 import com.prethesis.service.TicketService;
 import com.prethesis.util.generateresponse.GenerateResponseUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.prethesis.util.generateresponse.Constants.*;
@@ -26,18 +22,16 @@ import static com.prethesis.util.generateresponse.Constants.*;
 @RequiredArgsConstructor
 public class TicketServiceImpl implements TicketService {
 
-    private final TicketService ticketService;
-    private final RepoUser repoUser;
     private final RepoTicket repoTicket;
-    private final RepoTicketView repoTicketView;
+    private TicketMapper ticketMapper = TicketMapper.INSTANCE;
 
     @Override
-    public ResponseData<TicketView> create(String name, String email) {
+    public ResponseData<TicketView> create(TicketView ticketView) {
         Tickets ticket = Tickets.builder()
                 .screenHeight("833")
                 .screenWidth("1688")
-                .name(name)
-                .email(email)
+                .name(ticketView.getName())
+                .email(ticketView.getEmail())
                 .browserName("Chrome 55")
                 .browserFontSize("16px")
                 .postDate(LocalDate.now())
@@ -48,7 +42,7 @@ public class TicketServiceImpl implements TicketService {
     }
 
     private TicketView getTicketView(Tickets ticket) {
-        return (TicketView) repoTicket.findAll();
+        return ticketMapper.toTicketView(ticket);
     }
 
     @Override
@@ -69,25 +63,9 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public ResponseData<TicketView> getTicketDetails(int id) {
-        Optional<TicketView> eventDetailsView = repoTicketView.findById(id);
-        log.info("getting even details view from redis. result is : {}", eventDetailsView);
-
-        if (eventDetailsView.isPresent()) {
-            return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, eventDetailsView.get());
-        }
-
-        return repoTicket.findById(id).map(tickets -> ResponseData.<TicketView>builder()
-                .code(SUCCESS_CODE)
-                .message(SUCCESS_MESSAGE)
-                .body(getTicketView(tickets))
-                .build()
-        ).orElse(ResponseData.<TicketView>builder()
-                .code(NOT_FOUND_CODE)
-                .message(NOT_FOUND_MESSAGE)
-                .build());
-
-
-//        log.info("ticket detail found : ");
-//        return GenerateResponseUtility.ticketDetail.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, tv);
+        return repoTicket.findById(id).map(tickets -> GenerateResponseUtility
+                .ticketDetail
+                .generate(SUCCESS_CODE, SUCCESS_MESSAGE, getTicketView(tickets))
+        ).orElse(GenerateResponseUtility.ticketDetail.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, null));
     }
 }

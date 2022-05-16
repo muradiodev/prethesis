@@ -9,9 +9,10 @@ import java.util.List;
 
 public interface TicketService {
 
-    ResponseData<TicketView> create(String name, String email);
+    ResponseData<TicketView> create(TicketView ticketView);
 
     ResponseData<List<TicketView>> getAll();
 
     ResponseData<TicketView> getTicketDetails(int id);
+
 }
