@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TicketService extends JpaRepository<Tickets, Integer> {
+public interface TicketService {
 
     ResponseData<TicketView> create(String name, String email);
 

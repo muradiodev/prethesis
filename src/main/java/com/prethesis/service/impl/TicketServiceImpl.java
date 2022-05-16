@@ -3,6 +3,7 @@ package com.prethesis.service.impl;
 import com.prethesis.model.dtos.TicketView;
 import com.prethesis.entity.Tickets;
 import com.prethesis.model.ResponseData;
+import com.prethesis.repo.RepoTicket;
 import com.prethesis.service.TicketService;
 import com.prethesis.util.generateresponse.GenerateResponseUtility;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ import static com.prethesis.util.generateresponse.Constants.*;
 @RequiredArgsConstructor
 public class TicketServiceImpl implements TicketService {
 
-    private final TicketService ticketService;
+    private final RepoTicket repoTicket;
 
     @Override
     public ResponseData<TicketView> create(String name, String email) {
@@ -37,17 +38,17 @@ public class TicketServiceImpl implements TicketService {
                 .postDate(LocalDate.now())
                 .isActive(1)
                 .build();
-        ticketService.save(ticket);
+        repoTicket.save(ticket);
         return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, null);
     }
 
     private TicketView getTicketView(Tickets ticket) {
-        return (TicketView) ticketService.findAll();
+        return (TicketView) repoTicket.findAll();
     }
 
     @Override
     public ResponseData<List<TicketView>> getAll() {
-        List<Tickets> tickets = ticketService.findAll();
+        List<Tickets> tickets = repoTicket.findAll();
 
         List<TicketView> tv = tickets.stream()
                 .map(this::getTicketView)
@@ -63,17 +64,14 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public ResponseData<TicketView> getTicketDetails(int id) {
-        Optional<Tickets> tickets = ticketService.findById(id);
+        Optional<Tickets> tickets = repoTicket.findById(id);
 
-        ResponseEntity<ResponseData<TicketView>> response = tickets;
-//        log.info("get event user view : {} and response is : {}", idEvent, response);
-        if (response.getStatusCode() == HttpStatus.OK && response.getBody().getCode() == 200) {
-            return response.getBody().getBody();
+        if (tickets.isPresent()) {
+            return GenerateResponseUtility.ticketDetail.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, tickets.get());
         }
-        return null;
 
 
-//        log.info("ticket detail found : ");
-//        return GenerateResponseUtility.ticketDetail.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, tv);
+        log.info("ticket detail found : ");
+        return GenerateResponseUtility.ticketDetail.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, null);
     }
 }
