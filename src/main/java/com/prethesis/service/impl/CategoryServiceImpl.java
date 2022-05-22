@@ -44,10 +44,10 @@ public class CategoryServiceImpl implements CategoryService {
                 .collect(Collectors.toList());
 
         if (categories.size() == 0) {
-            log.info("ticket detail not found : ");
+            log.info("category detail not found : ");
             return GenerateResponseUtility.categories.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, null);
         }
-        log.info("ticket detail found : ");
+        log.info("category detail found : ");
         return GenerateResponseUtility.categories.generate(SUCCESS_CODE, SUCCESS_MESSAGE, tv);
     }
 
