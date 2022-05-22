@@ -14,7 +14,11 @@ public interface TicketMapper {
 
     @Mappings({
             @Mapping(source = "screenWidth", target = "screenResolution.width"),
-            @Mapping(source = "screenHeight", target = "screenResolution.height")
+            @Mapping(source = "screenHeight", target = "screenResolution.height"),
+            @Mapping(source = "idCategory", target = "category.id")
+
     })
     TicketView toTicketView(Tickets tickets);
+
+
 }

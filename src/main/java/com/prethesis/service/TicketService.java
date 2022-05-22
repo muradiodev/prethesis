@@ -13,6 +13,10 @@ public interface TicketService {
 
     ResponseData<List<TicketView>> getAll();
 
-    ResponseData<TicketView> getTicketDetails(int id);
+    ResponseData<TicketView> getTicketDetails(String id);
+
+    void getRate();
+
+
 
 }

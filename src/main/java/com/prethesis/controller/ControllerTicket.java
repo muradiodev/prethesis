@@ -37,7 +37,7 @@ public class ControllerTicket {
     @GetMapping("/viewTicket/{id}")
     public ResponseEntity<ResponseData<TicketView>> getTicketDetails(@PathVariable String id) {
         log.info("starting getTicketDetails:");
-        return ResponseEntity.ok(ticketService.getTicketDetails(Integer.parseInt(id)));
+        return ResponseEntity.ok(ticketService.getTicketDetails(id));
     }
 
 }

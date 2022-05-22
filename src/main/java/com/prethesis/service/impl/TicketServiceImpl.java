@@ -58,14 +58,23 @@ public class TicketServiceImpl implements TicketService {
             return GenerateResponseUtility.ticketDetails.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, null);
         }
         log.info("ticket detail found : ");
-        return GenerateResponseUtility.ticketDetails.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, tv);
+        return GenerateResponseUtility.ticketDetails.generate(SUCCESS_CODE, SUCCESS_MESSAGE, tv);
     }
 
     @Override
-    public ResponseData<TicketView> getTicketDetails(int id) {
+    public ResponseData<TicketView> getTicketDetails(String id) {
         return repoTicket.findById(id).map(tickets -> GenerateResponseUtility
                 .ticketDetail
                 .generate(SUCCESS_CODE, SUCCESS_MESSAGE, getTicketView(tickets))
         ).orElse(GenerateResponseUtility.ticketDetail.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, null));
+    }
+
+    @Override
+    public void getRate() {
+        int detractors = repoTicket.countAllByRateGreaterThanEqualAndRateLessThanEqual(0, 6);
+        int passives = repoTicket.countAllByRateGreaterThanEqualAndRateLessThanEqual(7, 8);
+        int promoters = repoTicket.countAllByRateGreaterThanEqualAndRateLessThanEqual(9, 10);
+        int all = repoTicket.countAllByRateGreaterThanEqualAndRateLessThanEqual(0, 10);
+
     }
 }

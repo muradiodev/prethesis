@@ -1,5 +1,6 @@
 package com.prethesis.model.dtos;
 
+import com.prethesis.entity.Categories;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -27,4 +28,8 @@ public class TicketView{
     String m1;
     String m2;
     String m3;
+    int userSkillRate;
+    int rate;
+    Categories category;
+
 }

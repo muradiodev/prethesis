@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
-@Table(name = "tickets")
 @Entity
 @Data
 @NoArgsConstructor
@@ -24,31 +23,21 @@ public class Tickets {
     private String id;
 
     private String name;
-
     private String email;
-
     private String browserName;
-
     private String browserFontSize;
-
     private String screenHeight;
-
     private String screenWidth;
-
     private String userIp;
-
     private LocalDate postDate;
-
     private int isActive;
-
     private String skillRate;
-
     private String satScore;
-
     private String m1;
-
     private String m2;
-
     private String m3;
+    private int userSkillRate;
+    private String idCategory;
+    private int rate;
 
 }
