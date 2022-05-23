@@ -48,7 +48,7 @@ public class ControllerTicket {
     }
 
     @GetMapping("/categoryTicket/")
-    public ResponseEntity<ResponseData<List<CatTicketView>>> getCategory(@PathVariable String id) {
+    public ResponseEntity<ResponseData<List<CatTicketView>>> getCategory() {
         log.info("starting getCategory:");
         return ResponseEntity.ok(ticketService.getCategoryTickets());
     }
