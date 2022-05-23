@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TicketView{
+public class TicketView {
 
     String id;
 
@@ -28,6 +28,8 @@ public class TicketView{
     String m1;
     String m2;
     String m3;
+    String gender;
+    int priority;
     int userSkillRate;
     int rate;
     Categories category;

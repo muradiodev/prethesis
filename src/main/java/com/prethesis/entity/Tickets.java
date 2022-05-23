@@ -36,7 +36,9 @@ public class Tickets {
     private String m1;
     private String m2;
     private String m3;
+    private String gender;
     private int userSkillRate;
+    private int priority;
     private String idCategory;
     private int rate;
 

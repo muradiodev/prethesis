@@ -9,10 +9,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CategoryView {
+public class CatTicketView {
 
-    String id;
-
-    String name;
-
+    String idCategory;
+    long count;
 }

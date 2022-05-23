@@ -1,8 +1,9 @@
 package com.prethesis.controller;
 
 
-import com.prethesis.entity.Tickets;
 import com.prethesis.model.ResponseData;
+import com.prethesis.model.dtos.CatTicketView;
+import com.prethesis.model.dtos.NpsView;
 import com.prethesis.model.dtos.TicketView;
 import com.prethesis.service.TicketService;
 import lombok.RequiredArgsConstructor;
@@ -34,10 +35,22 @@ public class ControllerTicket {
         return ResponseEntity.ok(ticketService.getAll());
     }
 
-    @GetMapping("/viewTicket/{id}")
+    @GetMapping("/ticket/{id}")
     public ResponseEntity<ResponseData<TicketView>> getTicketDetails(@PathVariable String id) {
         log.info("starting getTicketDetails:");
         return ResponseEntity.ok(ticketService.getTicketDetails(id));
+    }
+
+    @GetMapping("/nps")
+    public ResponseEntity<ResponseData<NpsView>> getTicketDetails() {
+        log.info("starting getTicketDetails:");
+        return ResponseEntity.ok(ticketService.getRate());
+    }
+
+    @GetMapping("/categoryTicket/")
+    public ResponseEntity<ResponseData<List<CatTicketView>>> getCategory(@PathVariable String id) {
+        log.info("starting getCategory:");
+        return ResponseEntity.ok(ticketService.getCategoryTickets());
     }
 
 }

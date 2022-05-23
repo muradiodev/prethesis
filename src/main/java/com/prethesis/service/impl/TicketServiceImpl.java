@@ -1,6 +1,8 @@
 package com.prethesis.service.impl;
 
 import com.prethesis.mapper.TicketMapper;
+import com.prethesis.model.dtos.CatTicketView;
+import com.prethesis.model.dtos.NpsView;
 import com.prethesis.model.dtos.TicketView;
 import com.prethesis.entity.Tickets;
 import com.prethesis.model.ResponseData;
@@ -70,11 +72,31 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void getRate() {
+    public ResponseData<NpsView> getRate() {
         int detractors = repoTicket.countAllByRateGreaterThanEqualAndRateLessThanEqual(0, 6);
         int passives = repoTicket.countAllByRateGreaterThanEqualAndRateLessThanEqual(7, 8);
         int promoters = repoTicket.countAllByRateGreaterThanEqualAndRateLessThanEqual(9, 10);
         int all = repoTicket.countAllByRateGreaterThanEqualAndRateLessThanEqual(0, 10);
 
+        int happy = (promoters / all) * 100;
+        int sad = (passives / all) * 100;
+        int nps = 100 * (happy - sad);
+
+        return GenerateResponseUtility.npsView.generate(SUCCESS_CODE, SUCCESS_MESSAGE, NpsView.builder()
+                .promoters(promoters)
+                .detractors(detractors)
+                .all(all)
+                .passives(passives)
+                .happy(happy)
+                .sad(sad)
+                .nps(nps)
+                .build());
     }
+
+    @Override
+    public ResponseData<List<CatTicketView>> getCategoryTickets() {
+        return GenerateResponseUtility.catTicket.generate(SUCCESS_CODE, SUCCESS_MESSAGE, repoTicket.catTicketView());
+    }
+
+
 }

@@ -2,7 +2,6 @@ package com.prethesis.controller;
 
 import com.prethesis.model.ResponseData;
 import com.prethesis.model.dtos.CategoryView;
-import com.prethesis.model.dtos.TicketView;
 import com.prethesis.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +24,12 @@ public class ControllerCategory {
         return ResponseEntity.ok(categoryService.getAll());
     }
 
-//    @GetMapping("/category/{id}")
-//    public ResponseEntity<ResponseData<CategoryView>> getCategory(@PathVariable String id) {
-//        log.info("starting getCategory:");
-//        return ResponseEntity.ok(categoryService.getTicketDetails(id));
-//    }
+    @PostMapping("/category")
+    public ResponseEntity<ResponseData<CategoryView>> create(@RequestBody CategoryView categoryView) throws IOException {
+        log.info("starting create {}", categoryView);
+        return ResponseEntity.ok(categoryService.create(categoryView));
+    }
+
+
 
 }

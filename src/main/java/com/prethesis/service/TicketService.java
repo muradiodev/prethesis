@@ -1,9 +1,9 @@
 package com.prethesis.service;
 
-import com.prethesis.entity.Tickets;
 import com.prethesis.model.ResponseData;
+import com.prethesis.model.dtos.CatTicketView;
+import com.prethesis.model.dtos.NpsView;
 import com.prethesis.model.dtos.TicketView;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ public interface TicketService {
 
     ResponseData<TicketView> getTicketDetails(String id);
 
-    void getRate();
+    ResponseData<NpsView> getRate();
 
 
-
+    ResponseData<List<CatTicketView>> getCategoryTickets();
 }
