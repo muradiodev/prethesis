@@ -1,0 +1,13 @@
+stages:
+  - install_and_push
+  - deploy
+
+test_runner:
+  stage: install_and_push
+  script:
+    - mvn package
+    - mvn install
+    - cd /usr/services/thesis
+    - docker-compose up -d
+  tags:
+    - node1
