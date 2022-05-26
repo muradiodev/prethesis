@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
 public interface CategoryMapper {
     CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
-
+//add
     CategoryView toCategoryView(Categories categories);
 
 
