@@ -17,11 +17,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin
 @RequestMapping("api/v1/")
 public class ControllerTicket {
 
     private final TicketService ticketService;
-
 
     @PostMapping("/tickets")
     public ResponseEntity<ResponseData<TicketView>> create(@RequestBody TicketView ticketView) throws IOException {
