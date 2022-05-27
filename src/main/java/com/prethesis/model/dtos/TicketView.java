@@ -30,8 +30,6 @@ public class TicketView {
     String m3;
     String gender;
     int priority;
-    int userSkillRate;
-    int rate;
     Categories category;
 
 }

@@ -30,14 +30,22 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public ResponseData<TicketView> create(TicketView ticketView) {
         Tickets ticket = Tickets.builder()
-                .screenHeight("833")
-                .screenWidth("1688")
                 .name(ticketView.getName())
                 .email(ticketView.getEmail())
-                .browserName("Chrome 55")
-                .browserFontSize("16px")
+                .browserName(ticketView.getBrowserName())
+                .browserFontSize(ticketView.getBrowserFontSize())
+                .screenWidth(ticketView.getScreenResolution().getWidth())
+                .screenHeight(ticketView.getScreenResolution().getHeight())
+                .userIp(ticketView.getUserIp())
                 .postDate(LocalDate.now())
                 .isActive(1)
+                .skillRate(ticketView.getSkillRate())
+                .satScore(ticketView.getSatScore())
+                .m1(ticketView.getM1())
+                .m2(ticketView.getM2())
+                .m3(ticketView.getM3())
+                .gender(ticketView.getGender())
+                .priority(0)
                 .build();
         repoTicket.save(ticket);
         return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, null);
