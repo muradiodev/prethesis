@@ -34,7 +34,7 @@ public class ControllerTicket {
         log.info("starting getAll:");
         return ResponseEntity.ok(ticketService.getAll());
     }
-
+//s
     @GetMapping("/ticket/{id}")
     public ResponseEntity<ResponseData<TicketView>> getTicketDetails(@PathVariable String id) {
         log.info("starting getTicketDetails:");
