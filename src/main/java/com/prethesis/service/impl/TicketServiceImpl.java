@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,25 +28,25 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public ResponseData<TicketView> create(TicketView ticketView) {
-        Tickets ticket = Tickets.builder()
-                .name(ticketView.getName())
-                .email(ticketView.getEmail())
-                .browserName(ticketView.getBrowserName())
-                .browserFontSize(ticketView.getBrowserFontSize())
-                .screenWidth(ticketView.getScreenResolution().getWidth())
-                .screenHeight(ticketView.getScreenResolution().getHeight())
-                .userIp(ticketView.getUserIp())
-                .postDate(LocalDate.now())
-                .isActive(1)
-                .skillRate(ticketView.getSkillRate())
-                .satScore(ticketView.getSatScore())
-                .m1(ticketView.getM1())
-                .m2(ticketView.getM2())
-                .m3(ticketView.getM3())
-                .gender(ticketView.getGender())
-                .priority(0)
-                .build();
-        repoTicket.save(ticket);
+//        Tickets ticket = Tickets.builder()
+//                .name(ticketView.getName())
+//                .email(ticketView.getEmail())
+//                .browserName(ticketView.getBrowserName())
+//                .browserFontSize(ticketView.getBrowserFontSize())
+//                .screenWidth(ticketView.getScreenResolution().getWidth())
+//                .screenHeight(ticketView.getScreenResolution().getHeight())
+//                .userIp(ticketView.getUserIp())
+//                .postDate(LocalDate.now())
+//                .isActive(1)
+//                .skillRate(ticketView.getSkillRate())
+//                .satScore(ticketView.getSatScore())
+//                .m1(ticketView.getM1())
+//                .m2(ticketView.getM2())
+//                .m3(ticketView.getM3())
+//                .gender(ticketView.getGender())
+//                .priority(0)
+//                .build();
+//        repoTicket.save(ticket);
         return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, null);
     }
 //    ?
@@ -82,10 +81,10 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public ResponseData<NpsView> getRate() {
-        int detractors = repoTicket.countAllByRateGreaterThanEqualAndRateLessThanEqual(0, 6);
-        int passives = repoTicket.countAllByRateGreaterThanEqualAndRateLessThanEqual(7, 8);
-        int promoters = repoTicket.countAllByRateGreaterThanEqualAndRateLessThanEqual(9, 10);
-        int all = repoTicket.countAllByRateGreaterThanEqualAndRateLessThanEqual(0, 10);
+        int detractors = repoTicket.countAllBySkillRateGreaterThanEqualAndSkillRateLessThanEqual(0, 6);
+        int passives = repoTicket.countAllBySkillRateGreaterThanEqualAndSkillRateLessThanEqual(7, 8);
+        int promoters = repoTicket.countAllBySkillRateGreaterThanEqualAndSkillRateLessThanEqual(9, 10);
+        int all = repoTicket.countAllBySkillRateGreaterThanEqualAndSkillRateLessThanEqual(0, 10);
 
         int happy = (promoters / all) * 100;
         int sad = (passives / all) * 100;
