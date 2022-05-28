@@ -89,7 +89,7 @@ public class TicketServiceImpl implements TicketService {
         int happy = (promoters / all) * 100;
         int sad = (passives / all) * 100;
         int nps = 100 * (happy - sad);
-
+//s
         return GenerateResponseUtility.npsView.generate(SUCCESS_CODE, SUCCESS_MESSAGE, NpsView.builder()
                 .promoters(promoters)
                 .detractors(detractors)
