@@ -1,21 +1,16 @@
 package com.prethesis.service.impl;
 
 import com.prethesis.entity.Categories;
-import com.prethesis.entity.Tickets;
 import com.prethesis.mapper.CategoryMapper;
-import com.prethesis.mapper.TicketMapper;
 import com.prethesis.model.ResponseData;
 import com.prethesis.model.dtos.CategoryView;
-import com.prethesis.model.dtos.TicketView;
 import com.prethesis.repo.RepoCategory;
-import com.prethesis.repo.RepoTicket;
 import com.prethesis.service.CategoryService;
 import com.prethesis.util.generateresponse.GenerateResponseUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

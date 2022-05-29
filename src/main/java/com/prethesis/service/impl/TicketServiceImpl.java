@@ -1,11 +1,13 @@
 package com.prethesis.service.impl;
 
+import com.prethesis.entity.Categories;
 import com.prethesis.mapper.TicketMapper;
 import com.prethesis.model.dtos.CatTicketView;
 import com.prethesis.model.dtos.NpsView;
 import com.prethesis.model.dtos.TicketView;
 import com.prethesis.entity.Tickets;
 import com.prethesis.model.ResponseData;
+import com.prethesis.repo.RepoCategory;
 import com.prethesis.repo.RepoTicket;
 import com.prethesis.service.TicketService;
 import com.prethesis.util.generateresponse.GenerateResponseUtility;
@@ -24,6 +26,7 @@ import static com.prethesis.util.generateresponse.Constants.*;
 public class TicketServiceImpl implements TicketService {
 
     private final RepoTicket repoTicket;
+    private final RepoCategory repoCategory;
     private TicketMapper ticketMapper = TicketMapper.INSTANCE;
 
     @Override
@@ -73,10 +76,22 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public ResponseData<TicketView> getTicketDetails(String id) {
-        return repoTicket.findById(id).map(tickets -> GenerateResponseUtility
+        Categories category = new Categories();
+        TicketView ticketView;
+
+        ResponseData<TicketView> ticketViewResponseData = repoTicket.findById(id).map(tickets -> GenerateResponseUtility
                 .ticketDetail
                 .generate(SUCCESS_CODE, SUCCESS_MESSAGE, getTicketView(tickets))
         ).orElse(GenerateResponseUtility.ticketDetail.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, null));
+
+        Categories cat = repoCategory.findNameById(ticketViewResponseData.getBody().getCategory().getId());
+
+        category.setId(ticketViewResponseData.getBody().getCategory().getId());
+        category.setName(cat.getName());
+        ticketView = ticketViewResponseData.getBody();
+        ticketView.setCategory(category);
+
+        return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, ticketView);
     }
 
     @Override
@@ -111,8 +126,7 @@ public class TicketServiceImpl implements TicketService {
         log.info("categoryView : {}", ticketView);
 
         repoTicket.findById(ticketView.getId()).ifPresent(ticket -> {
-            ticket.setIdCategory(ticket.getIdCategory());
-//            ticket.setCat
+            ticket.setIdCategory(ticketView.getCategory().getId());
             repoTicket.save(ticket);
         });
 
