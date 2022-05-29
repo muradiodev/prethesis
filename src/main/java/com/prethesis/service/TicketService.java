@@ -21,4 +21,6 @@ public interface TicketService {
     ResponseData<List<CatTicketView>> getCategoryTickets();
 
     ResponseData<TicketView> update(TicketView ticketView);
+
+    ResponseData<TicketView> setPriority(TicketView ticketView);
 }

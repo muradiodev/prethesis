@@ -49,6 +49,11 @@ public class ControllerTicket {
         return ResponseEntity.ok(ticketService.update(ticketView));
     }
 
+    @PutMapping("/ticket/setPriority")
+    public ResponseEntity<ResponseData<TicketView>> setPriority(@RequestBody @Valid TicketView ticketView){
+        return ResponseEntity.ok(ticketService.setPriority(ticketView));
+    }
+
 //    @DeleteMapping("/ticket")
 //    public ResponseEntity<ResponseData<TicketView>> delete(@RequestBody @Valid TicketView ticketView){
 //        return ResponseEntity.ok(ticketService.delete(ticketView));

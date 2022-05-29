@@ -133,5 +133,17 @@ public class TicketServiceImpl implements TicketService {
         return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, ticketView);
     }
 
+    @Override
+    public ResponseData<TicketView> setPriority(TicketView ticketView) {
+        log.info("categoryView : {}", ticketView);
+
+        repoTicket.findById(ticketView.getId()).ifPresent(ticket -> {
+            ticket.setPriority(ticketView.getPriority());
+            repoTicket.save(ticket);
+        });
+
+        return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, ticketView);
+    }
+
 
 }
