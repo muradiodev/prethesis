@@ -58,6 +58,7 @@ public class ControllerTicket {
 //    public ResponseEntity<ResponseData<TicketView>> delete(@RequestBody @Valid TicketView ticketView){
 //        return ResponseEntity.ok(ticketService.delete(ticketView));
 //    }
+//    s
 
     @GetMapping("/nps")
     public ResponseEntity<ResponseData<NpsView>> getTicketDetails() {
