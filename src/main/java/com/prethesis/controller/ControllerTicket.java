@@ -49,7 +49,7 @@ public class ControllerTicket {
         return ResponseEntity.ok(ticketService.update(ticketView));
     }
 
-    @PutMapping("/ticket/setPriority")
+    @PutMapping("/ticket/set-priority")
     public ResponseEntity<ResponseData<TicketView>> setPriority(@RequestBody @Valid TicketView ticketView){
         return ResponseEntity.ok(ticketService.setPriority(ticketView));
     }
