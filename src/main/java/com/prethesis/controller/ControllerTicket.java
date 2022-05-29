@@ -3,6 +3,7 @@ package com.prethesis.controller;
 
 import com.prethesis.model.ResponseData;
 import com.prethesis.model.dtos.CatTicketView;
+import com.prethesis.model.dtos.CategoryView;
 import com.prethesis.model.dtos.NpsView;
 import com.prethesis.model.dtos.TicketView;
 import com.prethesis.service.TicketService;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -40,6 +42,17 @@ public class ControllerTicket {
         log.info("starting getTicketDetails:");
         return ResponseEntity.ok(ticketService.getTicketDetails(id));
     }
+
+    @PutMapping("/ticket")
+    public ResponseEntity<ResponseData<TicketView>> update(@RequestBody @Valid TicketView ticketView){
+
+        return ResponseEntity.ok(ticketService.update(ticketView));
+    }
+
+//    @DeleteMapping("/ticket")
+//    public ResponseEntity<ResponseData<TicketView>> delete(@RequestBody @Valid TicketView ticketView){
+//        return ResponseEntity.ok(ticketService.delete(ticketView));
+//    }
 
     @GetMapping("/nps")
     public ResponseEntity<ResponseData<NpsView>> getTicketDetails() {

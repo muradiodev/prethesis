@@ -106,5 +106,18 @@ public class TicketServiceImpl implements TicketService {
         return GenerateResponseUtility.catTicket.generate(SUCCESS_CODE, SUCCESS_MESSAGE, repoTicket.catTicketView());
     }
 
+    @Override
+    public ResponseData<TicketView> update(TicketView ticketView) {
+        log.info("categoryView : {}", ticketView);
+
+        repoTicket.findById(ticketView.getId()).ifPresent(ticket -> {
+            ticket.setIdCategory(ticket.getIdCategory());
+//            ticket.setCat
+            repoTicket.save(ticket);
+        });
+
+        return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, ticketView);
+    }
+
 
 }

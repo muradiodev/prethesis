@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.prethesis.util.generateresponse.Constants.*;
@@ -57,6 +58,29 @@ public class CategoryServiceImpl implements CategoryService {
                 .name(categoryView.getName())
                 .build();
         repoCategory.save(categories);
+        return GenerateResponseUtility.categoryDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, null);
+    }
+
+    @Override
+    public ResponseData<CategoryView> update(CategoryView categoryView) {
+        log.info("categoryView : {}", categoryView);
+
+        repoCategory.findById(categoryView.getId()).ifPresent(categories -> {
+            categories.setName(categoryView.getName());
+            repoCategory.save(categories);
+        });
+
+        return GenerateResponseUtility.categoryDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, categoryView);
+    }
+
+    @Override
+    public ResponseData<CategoryView> delete(CategoryView categoryView) {
+        log.info("categoryView : {}", categoryView);
+
+        repoCategory.findById(categoryView.getId()).ifPresent(categories -> {
+            repoCategory.delete(categories);
+        });
+
         return GenerateResponseUtility.categoryDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, null);
     }
 }

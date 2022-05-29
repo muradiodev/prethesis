@@ -12,4 +12,8 @@ public interface CategoryService {
     ResponseData<List<CategoryView>> getAll();
 
     ResponseData<CategoryView> create(CategoryView categoryView);
+
+    ResponseData<CategoryView> update(CategoryView categoryView);
+
+    ResponseData<CategoryView> delete(CategoryView categoryView);
 }

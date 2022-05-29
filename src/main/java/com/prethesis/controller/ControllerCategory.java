@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 @RestController
@@ -29,6 +30,17 @@ public class ControllerCategory {
     public ResponseEntity<ResponseData<CategoryView>> create(@RequestBody CategoryView categoryView) throws IOException {
         log.info("starting create {}", categoryView);
         return ResponseEntity.ok(categoryService.create(categoryView));
+    }
+
+    @PutMapping("/category")
+    public ResponseEntity<ResponseData<CategoryView>> update(@RequestBody @Valid CategoryView categoryView){
+
+        return ResponseEntity.ok(categoryService.update(categoryView));
+    }
+
+    @DeleteMapping("/category")
+    public ResponseEntity<ResponseData<CategoryView>> delete(@RequestBody @Valid CategoryView categoryView){
+        return ResponseEntity.ok(categoryService.delete(categoryView));
     }
 
 
