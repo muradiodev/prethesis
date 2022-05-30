@@ -55,7 +55,10 @@ public class TicketServiceImpl implements TicketService {
 //    ?
 
     private TicketView getTicketView(Tickets ticket) {
-        return ticketMapper.toTicketView(ticket);
+        TicketView ticketView = ticketMapper.toTicketView(ticket);
+        Categories cat = repoCategory.findNameById(ticketView.getCategory().getId());
+        ticketView.getCategory().setName(cat.getName());
+        return ticketView;
     }
 
     @Override
@@ -76,22 +79,11 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public ResponseData<TicketView> getTicketDetails(String id) {
-        Categories category = new Categories();
-        TicketView ticketView;
 
-        ResponseData<TicketView> ticketViewResponseData = repoTicket.findById(id).map(tickets -> GenerateResponseUtility
+        return repoTicket.findById(id).map(tickets -> GenerateResponseUtility
                 .ticketDetail
                 .generate(SUCCESS_CODE, SUCCESS_MESSAGE, getTicketView(tickets))
         ).orElse(GenerateResponseUtility.ticketDetail.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, null));
-
-        Categories cat = repoCategory.findNameById(ticketViewResponseData.getBody().getCategory().getId());
-
-        category.setId(ticketViewResponseData.getBody().getCategory().getId());
-        category.setName(cat.getName());
-        ticketView = ticketViewResponseData.getBody();
-        ticketView.setCategory(category);
-
-        return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, ticketView);
     }
 
     @Override
