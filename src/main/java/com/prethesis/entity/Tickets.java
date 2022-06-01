@@ -1,15 +1,11 @@
 package com.prethesis.entity;
 
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Data
@@ -33,8 +29,8 @@ public class Tickets {
     private String userIp;
     private LocalDate postDate;
     private int isActive;
-    private String skillRate;
-    private String satScore;
+    private int skill;
+    private int satScore;
     private String m1;
     private String m2;
     private String m3;

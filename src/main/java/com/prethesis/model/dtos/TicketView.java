@@ -25,8 +25,8 @@ public class TicketView {
     String userIp;
     LocalDate postDate;
     int isActive;
-    String skillRate;
-    String satScore;
+    int skill;
+    int satScore;
     String m1;
     String m2;
     String m3;

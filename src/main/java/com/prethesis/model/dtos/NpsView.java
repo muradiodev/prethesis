@@ -12,13 +12,13 @@ import java.math.BigDecimal;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class NpsView {
 
-    int detractors;
-    int passives;
-    int promoters;
-    int all;
-    int happy;
-    int sad;
+    long detractors;
+    long passives;
+    long promoters;
+    long all;
+    long happy;
+    long sad;
 
-    int nps;
+    long nps;
 
 }

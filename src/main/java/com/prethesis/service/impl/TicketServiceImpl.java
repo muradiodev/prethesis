@@ -43,7 +43,7 @@ public class TicketServiceImpl implements TicketService {
                 .startTime(ticketView.getStartTime())
                 .endTime(ticketView.getEndTime())
                 .isActive(1)
-                .skillRate(ticketView.getSkillRate())
+                .skill(ticketView.getSkill())
                 .satScore(ticketView.getSatScore())
                 .m1(ticketView.getM1())
                 .m2(ticketView.getM2())
@@ -70,6 +70,7 @@ public class TicketServiceImpl implements TicketService {
                 .map(this::getTicketView)
                 .collect(Collectors.toList());
 
+
         if (tickets.size() == 0) {
             log.info("ticket detail not found : ");
             return GenerateResponseUtility.ticketDetails.generate(NOT_FOUND_CODE, NOT_FOUND_MESSAGE, null);
@@ -89,15 +90,18 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public ResponseData<NpsView> getRate() {
-        int detractors = repoTicket.countAllBySkillRateGreaterThanEqualAndSkillRateLessThanEqual(0, 6);
-        int passives = repoTicket.countAllBySkillRateGreaterThanEqualAndSkillRateLessThanEqual(7, 8);
-        int promoters = repoTicket.countAllBySkillRateGreaterThanEqualAndSkillRateLessThanEqual(9, 10);
-        int all = repoTicket.countAllBySkillRateGreaterThanEqualAndSkillRateLessThanEqual(0, 10);
 
-        int happy = (promoters / all) * 100;
-        int sad = (passives / all) * 100;
-        int nps = 100 * (happy - sad);
-//s
+//        System.out.println("Test " + repoTicket.countAllBySkillGreaterThanEqualAndSkillLessThanEqual(1, 6));
+//        System.out.println(repoTicket.countAllBySkillrateGreaterThanEqual(1, 6));
+        long detractors = repoTicket.countAllBySatScoreGreaterThanEqualAndSatScoreLessThanEqual(0, 6);
+        long passives = repoTicket.countAllBySatScoreGreaterThanEqualAndSatScoreLessThanEqual(7, 8);
+        long promoters = repoTicket.countAllBySatScoreGreaterThanEqualAndSatScoreLessThanEqual(9, 10);
+        long all = repoTicket.countAllBySatScoreGreaterThanEqualAndSatScoreLessThanEqual(0, 10);
+//
+        long happy = (promoters * 100/ all);
+        long sad = (detractors * 100/ all) ;
+        long nps = happy - sad;
+////s
         return GenerateResponseUtility.npsView.generate(SUCCESS_CODE, SUCCESS_MESSAGE, NpsView.builder()
                 .promoters(promoters)
                 .detractors(detractors)
@@ -107,6 +111,16 @@ public class TicketServiceImpl implements TicketService {
                 .sad(sad)
                 .nps(nps)
                 .build());
+
+//        return GenerateResponseUtility.npsView.generate(SUCCESS_CODE, SUCCESS_MESSAGE, NpsView.builder()
+//                .promoters(0)
+//                .detractors(0)
+//                .all(0)
+//                .passives(0)
+//                .happy(0)
+//                .sad(0)
+//                .nps(0)
+//                .build());
     }
 
     @Override
