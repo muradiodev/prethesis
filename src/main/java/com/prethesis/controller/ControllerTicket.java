@@ -38,7 +38,9 @@ public class ControllerTicket {
 
 
     @PostMapping("/tickets")
-    public String addTicket(HttpServletRequest request, @RequestBody List<BasicAnnotation> annotations) throws IOException {
+//    public String addTicket(@ModelAttribute("ticket") Ticket ticket, @RequestBody List<BasicAnnotation> annotations) throws IOException {
+//    public String addTicket(@RequestBody Ticket ticket, @RequestBody List<BasicAnnotation> annotations) throws IOException {
+    public String addTicket(HttpServletRequest request, Ticket ticket, @RequestBody List<BasicAnnotation> annotations) throws IOException {
         ticketService.addTicket(request, annotations);
         return "main/index";
     }
