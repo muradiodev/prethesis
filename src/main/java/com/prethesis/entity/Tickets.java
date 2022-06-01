@@ -6,6 +6,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -39,5 +41,7 @@ public class Tickets {
     private String gender;
     private int priority;
     private String idCategory;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
 }

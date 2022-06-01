@@ -5,6 +5,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
@@ -30,6 +32,9 @@ public class TicketView {
     String m3;
     String gender;
     int priority;
+    LocalDateTime startTime;
+    LocalDateTime endTime;
     Categories category;
+
 
 }
