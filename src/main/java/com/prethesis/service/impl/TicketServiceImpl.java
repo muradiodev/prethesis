@@ -57,8 +57,11 @@ public class TicketServiceImpl implements TicketService {
 
     private TicketView getTicketView(Tickets ticket) {
         TicketView ticketView = ticketMapper.toTicketView(ticket);
-        Categories cat = repoCategory.findNameById(ticketView.getCategory().getId());
-        ticketView.getCategory().setName(cat.getName());
+
+        if (ticketView.getCategory().getId() != null) {
+            Categories cat = repoCategory.findNameById(ticketView.getCategory().getId());
+            ticketView.getCategory().setName(cat.getName());
+        }
         return ticketView;
     }
 
@@ -91,17 +94,13 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public ResponseData<NpsView> getRate() {
 
-//        System.out.println("Test " + repoTicket.countAllBySkillGreaterThanEqualAndSkillLessThanEqual(1, 6));
-//        System.out.println(repoTicket.countAllBySkillrateGreaterThanEqual(1, 6));
         long detractors = repoTicket.countAllBySatScoreGreaterThanEqualAndSatScoreLessThanEqual(0, 6);
         long passives = repoTicket.countAllBySatScoreGreaterThanEqualAndSatScoreLessThanEqual(7, 8);
         long promoters = repoTicket.countAllBySatScoreGreaterThanEqualAndSatScoreLessThanEqual(9, 10);
         long all = repoTicket.countAllBySatScoreGreaterThanEqualAndSatScoreLessThanEqual(0, 10);
-//
-        long happy = (promoters * 100/ all);
-        long sad = (detractors * 100/ all) ;
+        long happy = (promoters * 100 / all);
+        long sad = (detractors * 100 / all);
         long nps = happy - sad;
-////s
         return GenerateResponseUtility.npsView.generate(SUCCESS_CODE, SUCCESS_MESSAGE, NpsView.builder()
                 .promoters(promoters)
                 .detractors(detractors)
