@@ -111,15 +111,6 @@ public class TicketServiceImpl implements TicketService {
                 .nps(nps)
                 .build());
 
-//        return GenerateResponseUtility.npsView.generate(SUCCESS_CODE, SUCCESS_MESSAGE, NpsView.builder()
-//                .promoters(0)
-//                .detractors(0)
-//                .all(0)
-//                .passives(0)
-//                .happy(0)
-//                .sad(0)
-//                .nps(0)
-//                .build());
     }
 
     @Override
