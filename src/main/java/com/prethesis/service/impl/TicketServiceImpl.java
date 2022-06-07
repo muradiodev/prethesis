@@ -56,7 +56,6 @@ public class TicketServiceImpl implements TicketService {
                 .m3desc(ticketView.getM3desc())
                 .build();
 
-
         repoTicket.save(ticket);
         return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, null);
     }
