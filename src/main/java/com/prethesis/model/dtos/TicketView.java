@@ -35,6 +35,10 @@ public class TicketView {
     LocalDateTime startTime;
     LocalDateTime endTime;
     Categories category;
+    String finaldesc;
+    String m1desc;
+    String m2desc;
+    String m3desc;
 
 
 }

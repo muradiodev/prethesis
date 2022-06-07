@@ -50,7 +50,13 @@ public class TicketServiceImpl implements TicketService {
                 .m3(ticketView.getM3())
                 .gender(ticketView.getGender())
                 .priority(0)
+                .finaldesc(ticketView.getFinaldesc())
+                .m1desc(ticketView.getM1desc())
+                .m2desc(ticketView.getM2desc())
+                .m3desc(ticketView.getM3desc())
                 .build();
+
+
         repoTicket.save(ticket);
         return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, null);
     }

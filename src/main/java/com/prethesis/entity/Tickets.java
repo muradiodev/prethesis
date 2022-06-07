@@ -1,6 +1,7 @@
 package com.prethesis.entity;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -12,32 +13,36 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-//@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Tickets {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", columnDefinition = "VARCHAR(255)")
-    private String id;
+    String id;
 
-    private String name;
-    private String email;
-    private String browserName;
-    private String browserFontSize;
-    private String screenHeight;
-    private String screenWidth;
-    private String userIp;
-    private LocalDate postDate;
-    private int isActive;
-    private int skill;
-    private int satScore;
-    private String m1;
-    private String m2;
-    private String m3;
-    private String gender;
-    private int priority;
-    private String idCategory;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    String name;
+    String email;
+    String browserName;
+    String browserFontSize;
+    String screenHeight;
+    String screenWidth;
+    String userIp;
+    LocalDate postDate;
+    int isActive;
+    int skill;
+    int satScore;
+    String m1;
+    String m2;
+    String m3;
+    String gender;
+    int priority;
+    String idCategory;
+    LocalDateTime startTime;
+    LocalDateTime endTime;
+    String finaldesc;
+    String m1desc;
+    String m2desc;
+    String m3desc;
 
 }
