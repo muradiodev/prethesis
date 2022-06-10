@@ -69,7 +69,7 @@ public class TicketServiceImpl implements TicketService {
         }
         return ticketView;
     }
-//s
+
     @Override
     public ResponseData<List<TicketView>> getAll() {
         List<Tickets> tickets = repoTicket.findAll();
