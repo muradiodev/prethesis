@@ -72,4 +72,9 @@ public class ControllerTicket {
         return ResponseEntity.ok(ticketService.getCategoryTickets());
     }
 
+    @GetMapping("/ticket-count-by-category")
+    public ResponseEntity<ResponseData<Integer>> getTicketCountByCategory(@RequestParam String catName) {
+        log.info("starting getCategory count:");
+        return ResponseEntity.ok(ticketService.getTicketCountByCategory(catName));
+    }
 }

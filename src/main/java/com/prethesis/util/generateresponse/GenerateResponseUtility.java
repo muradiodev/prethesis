@@ -57,5 +57,12 @@ public class GenerateResponseUtility {
                     .body(list)
                     .build();
 
+    public static GenerateResponse<Integer, String, Integer, ResponseData<Integer>> ticketCatCount = (code, message, count) ->
+            ResponseData.<Integer>builder()
+                    .code(code)
+                    .message(message)
+                    .body(count)
+                    .build();
+
 }
 

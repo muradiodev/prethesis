@@ -14,4 +14,6 @@ public interface RepoTicket extends JpaRepository<Tickets, String> {
 
     @Query("Select new com.prethesis.model.dtos.CatTicketView(t.idCategory,count(t)) from Tickets t group by t.idCategory")
     List<CatTicketView> catTicketView();
+
+    Integer countAllByIdCategory(String id);
 }

@@ -23,4 +23,6 @@ public interface TicketService {
     ResponseData<TicketView> update(TicketView ticketView);
 
     ResponseData<TicketView> setPriority(TicketView ticketView);
+
+    ResponseData<Integer> getTicketCountByCategory(String catName);
 }

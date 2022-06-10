@@ -147,5 +147,15 @@ public class TicketServiceImpl implements TicketService {
         return GenerateResponseUtility.ticketDetail.generate(SUCCESS_CODE, SUCCESS_MESSAGE, ticketView);
     }
 
+    @Override
+    public ResponseData<Integer> getTicketCountByCategory(String catName) {
+        log.info("getTicketCountByCategory : {}", catName);
+        Integer result = 0;
 
+        Categories categories = repoCategory.getCategoriesByName(catName);
+
+        result = repoTicket.countAllByIdCategory(categories.getId());
+
+        return GenerateResponseUtility.ticketCatCount.generate(SUCCESS_CODE, SUCCESS_MESSAGE, result);
+    }
 }
